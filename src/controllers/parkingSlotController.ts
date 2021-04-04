@@ -4,7 +4,9 @@
 
 import express, { Request, Response } from "express";
 import * as SlotService from "../services/parking_slots.service";
+import * as CarService from "../services/cars.service";
 import { BaseSlot, Slot } from "../models/parking_slot.interface";
+import { Car } from "../models/car.interface";
 
 /**
  * Controller Definitions
@@ -79,6 +81,13 @@ export const deleteSlot = async (req: Request, res: Response) => {
 export const parkCar = async (req: Request, res: Response) => {
   try{
     let car_number = req.body.car_number;
+    const car: Car = await CarService.find(car_number);
+    if(!car){
+      throw Error("Car Not Found!");
+    }
+    if(!CarService.validateCarNumber(car_number)){
+      throw Error("Invalid Car Number!");
+    }
     let parking = await SlotService.findAll();
     if(!parking || parking.length <= 0){
       return res.status(400).json("Parking is full");
@@ -102,7 +111,7 @@ export const unparkCar = async (req: Request, res: Response) => {
     if(!parking || parking.length <= 0){
       return res.status(400).json("Parking Slot not found!");
     }
-    if(SlotService.validateSlotNumber(slot_number)){
+    if(!SlotService.validateSlotNumber(slot_number)){
       return res.status(400).json("Invalid Slot Number!");
     }
     else if(!parking["car_number"] || parking["car_number"]==""){
