@@ -3,8 +3,8 @@
  */
 
 import express, { Request, Response } from "express";
-import * as CarService from "../models/car/cars.service";
-import { BaseCar, Car } from "../interfaces/car.interface";
+import * as CarService from "../services/cars.service";
+import { BaseCar, Car } from "../models/car.interface";
 
 /**
  * Controller Definitions
@@ -41,6 +41,7 @@ export const createCar = async (req: Request, res: Response) => {
 
     res.status(201).json(newCar);
   } catch (e) {
+    console.log(e);
     res.status(500).send(e.message);
   }
 }

@@ -4,7 +4,7 @@
 
 import * as dotenv from "dotenv";
 import express from "express";
-import { carsRouter } from "./routes/cars.router";
+import { mainRouter } from "./routes/main.router";
 import { rateLimit } from "./middleware/rate-limit.middleware";
 
 
@@ -28,8 +28,8 @@ if (!process.env.PORT) {
  */
 
 app.use(express.json());
-app.use(rateLimit);
-app.use("/api/v1/cars", carsRouter);
+// app.use(rateLimit);
+app.use("/api/v1", mainRouter);
 
 
 

@@ -4,13 +4,14 @@
  * Data Model Interfaces
  */
 
-import { BaseCar, Car } from "../../interfaces/car.interface";
-import { Cars } from "../../interfaces/cars.interface";
+import { BaseCar, Car } from "../models/car.interface";
+import { Cars } from "../models/cars.interface";
 
 
 /**
  * In-Memory Store
  */
+let car_id = 0;
 let cars: Cars = {};
 
 
@@ -23,14 +24,14 @@ export const findAll = async (): Promise<Car[]> => Object.values(cars);
 export const find = async (id: number): Promise<Car> => cars[id];
 
 export const create = async (newCar: BaseCar): Promise<Car> => {
-    const id = new Date().valueOf();
+  newCar["id"] && newCar["id"] > 0 ? null : car_id++;
   
-    cars[id] = {
-      id,
+    cars[car_id] = {
+      id: car_id,
       ...newCar,
     };
   
-    return cars[id];
+    return cars[car_id];
   };
 
   export const update = async (
