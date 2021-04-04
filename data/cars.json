@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "First car",
+        "number": "Lorem Ipsum",
+        "model": "Testing 1",
+        "createdAt": "Mon Aug 27 2018 15:16:17 GMT+0200 (CEST)",
+        "updatedAt": "Mon Aug 27 2018 15:16:17 GMT+0200 (CEST)"
+    },
+    {
+        "id": 2,
+        "name": "Second car",
+        "number": "Lorem Ipsum again",
+        "model": "Testing 2",
+        "createdAt": "Mon Aug 27 2018 16:17:18 GMT+0200 (CEST)",
+        "updatedAt": "Mon Aug 27 2018 16:17:18 GMT+0200 (CEST)"
+    }
+]
