@@ -23,7 +23,8 @@ export const findAll = async (): Promise<Car[]> => Object.values(cars);
 export const find = async (car_number: number): Promise<Car> => cars[car_number];
 const validateCarNumber = function(car){
   //this regex in only for alphanumberic. This means, empty string will also return false which consequently handles for car_number as required field as well
-  return /^[a-z0-9]+$/i.test(car)
+  const regex = /^[A-Z]*[0-9]/
+  return regex.test(car)
 }
 const validateFields = function(car){
   return validateCarNumber(car["car_number"]);
