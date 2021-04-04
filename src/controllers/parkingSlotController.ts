@@ -76,3 +76,23 @@ export const deleteSlot = async (req: Request, res: Response) => {
   }
 }
 
+export const parkCar = async (req: Request, res: Response) => {
+  try{
+    let car_number = req.body.car_number;
+    let parking = await SlotService.findAll();
+    if(!parking || parking.length <= 0){
+      console.log("RETURNING FROM HERE!")
+      return res.status(400).json("Parking is full");
+    }
+    for (let slot=0; slot<parking.length ; slot++){
+      if(!parking[slot]["car_number"] || parking[slot]["car_number"] == ""){
+        parking[slot]["car_number"] = car_number;
+        parking[slot] = await SlotService.update(parking[slot].id, parking[slot]);
+        return res.status(200).json(parking[slot]);
+      }
+    }
+    return res.status(400).json("Parking is full");
+  }catch(e){
+    return res.status(500).send(e.message);
+  }
+}

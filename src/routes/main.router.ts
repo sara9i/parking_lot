@@ -9,3 +9,6 @@ import {carsRouter} from "./cars.router";
 export const mainRouter = express.Router();
 mainRouter.use('/cars', carsRouter);
 mainRouter.use('/parking', parkingSlotRouter);
+mainRouter.post("/park", async (req: Request, res: Response) => {
+    parkingSlotController.parkCar(req, res);
+});
