@@ -12,3 +12,9 @@ mainRouter.use('/parking', parkingSlotRouter);
 mainRouter.post("/park", async (req: Request, res: Response) => {
     parkingSlotController.parkCar(req, res);
 });
+mainRouter.delete("/unpark/:slot_number", async (req: Request, res: Response) => {
+    parkingSlotController.unparkCar(req, res);
+});
+mainRouter.get("/get-info", async (req: Request, res: Response) => {
+    parkingSlotController.getInfo(req, res);
+});

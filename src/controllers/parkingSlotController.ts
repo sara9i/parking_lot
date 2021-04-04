@@ -123,3 +123,37 @@ export const unparkCar = async (req: Request, res: Response) => {
     return res.status(500).send(e.message);
   }
 }
+
+export const getInfo = async (req: Request, res: Response) => {
+  try{
+    const slot_number: number = parseInt(req.param('slot_number'), 10);
+    const car_number: string = req.param('car_number');
+    let parking: Slot;
+    if(slot_number){
+      if(!SlotService.validateSlotNumber(slot_number)){
+        return res.status(400).json("Invalid Slot Number!");
+      }
+      parking = await SlotService.find(slot_number);
+      if(!parking || parking.length <= 0){
+        return res.status(400).json("Parking Slot not found!");
+      }
+    }else if(car_number){
+      if(!CarService.validateCarNumber(car_number)){
+        return res.status(400).json("Invalid Car Number!");
+      }
+      const car: Car = await CarService.find(car_number);
+      if(!car){
+        throw Error("Car Not Found!");
+      }
+      parking = await SlotService.searchByCarNumber(car_number);
+      if(!parking || parking.length <= 0){
+        return res.status(400).json("Car Not Found In Parking Lot!");
+      }
+    }else{
+      res.status(400).json("Missing Required Fields!");
+    }
+    return res.status(200).json(parking);
+  }catch(e){
+    return res.status(500).send(e.message);
+  }
+}
