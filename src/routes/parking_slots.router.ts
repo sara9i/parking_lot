@@ -30,7 +30,6 @@ parkingSlotRouter.get("/:id", async (req: Request, res: Response) => {
 // POST cars
 
 parkingSlotRouter.post("/", async (req: Request, res: Response) => {
-  console.log("I WAS HEREEEEEEEEEEEE")
     parkingSlotController.createSlot(req, res);
   });
 

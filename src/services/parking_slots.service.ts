@@ -23,8 +23,19 @@ export const findAll = async (): Promise<Slot[]> => Object.values(parking_slots)
 
 export const find = async (id: number): Promise<Slot> => parking_slots[id];
 
+const validateFields = function(slot){
+  return validateSlotNumber(slot["id"])
+}
+
+export const validateSlotNumber = function(slot_number){
+  return slot_number > 0 && slot_number <= process.env.PARKING_LOT_SIZE;
+}
+
 export const create = async (newSlot: BaseSlot): Promise<Slot> => {
-  newSlot["id"] && newSlot["id"]>0?null:slot_id++;
+  slot_id = newSlot["id"] && newSlot["id"]>0 ? newSlot["id"] :slot_id++;
+  if(!validateSlotNumber(slot_id)){
+    throw Error("Invalid ID!");
+  }
   
   parking_slots[slot_id] = {
     id: slot_id,
@@ -38,6 +49,9 @@ export const create = async (newSlot: BaseSlot): Promise<Slot> => {
     id: number,
     parking_slotUpdate: BaseSlot
   ): Promise<Slot | null> => {
+    if(!validateSlotNumber(id)){
+      throw Error("Invalid ID!");
+    }
     const parking_slot = await find(id);
   
     if (!parking_slot) {
@@ -50,6 +64,9 @@ export const create = async (newSlot: BaseSlot): Promise<Slot> => {
   };
 
   export const remove = async (id: number): Promise<null | void> => {
+    if(!validateSlotNumber(id)){
+      throw Error("Invalid ID!");
+    }
     const parking_slot = await find(id);
   
     if (!parking_slot) {

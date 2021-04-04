@@ -81,7 +81,6 @@ export const parkCar = async (req: Request, res: Response) => {
     let car_number = req.body.car_number;
     let parking = await SlotService.findAll();
     if(!parking || parking.length <= 0){
-      console.log("RETURNING FROM HERE!")
       return res.status(400).json("Parking is full");
     }
     for (let slot=0; slot<parking.length ; slot++){
@@ -92,6 +91,25 @@ export const parkCar = async (req: Request, res: Response) => {
       }
     }
     return res.status(400).json("Parking is full");
+  }catch(e){
+    return res.status(500).send(e.message);
+  }
+}
+export const unparkCar = async (req: Request, res: Response) => {
+  try{
+    const slot_number: number = parseInt(req.params.slot_number, 10);
+    let parking: Slot = await SlotService.find(slot_number);
+    if(!parking || parking.length <= 0){
+      return res.status(400).json("Parking Slot not found!");
+    }
+    if(SlotService.validateSlotNumber(slot_number)){
+      return res.status(400).json("Invalid Slot Number!");
+    }
+    else if(!parking["car_number"] || parking["car_number"]==""){
+      return res.status(200).json("Parking Slot Already Empty!");
+    }
+    await SlotService.update(parking.id, {car_number: "", ...parking});
+    return res.status(200).json(`${parking["car_number"]} Successfully Unparked!`);
   }catch(e){
     return res.status(500).send(e.message);
   }
