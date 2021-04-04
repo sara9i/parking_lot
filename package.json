@@ -1,0 +1,19 @@
+{
+  "name": "parking_lot",
+  "version": "1.0.0",
+  "description": "Parking Lot assignment for Nas tech hackathon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sara9i/parking_lot.git"
+  },
+  "author": "sara iftikhar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sara9i/parking_lot/issues"
+  },
+  "homepage": "https://github.com/sara9i/parking_lot#readme"
+}
