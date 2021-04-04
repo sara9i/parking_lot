@@ -1,0 +1,418 @@
+{
+  "swagger": "2.0",
+  "host": "localhost:8000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "info": {
+    "title": "Parking Lot (04-04-2021)",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "cars",
+      "description": "Operations about cars"
+    },
+    {
+      "name": "parking",
+      "description": "Operations about parking"
+    }
+  ],
+  "paths": {
+    "/cars": {
+      "post": {
+        "tags": [
+          "cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "New Car API",
+        "required": [
+          "car_number"
+        ],
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Enter required body parameters",
+            "schema": {
+              "$ref": "#/definitions/car"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/cars": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get details of all cars",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Fetch Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/cars/{car_number}": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get info of a single car",
+        "parameters": [
+          {
+            "name": "car_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "properties": {
+              "car_number": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetch Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/cars/{car_number}": {
+      "put": {
+        "tags": [
+          "cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Update info of a single car",
+        "parameters": [
+          {
+            "name": "car_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "properties": {
+              "car_number": {
+                "type": "string",
+                "format": "alphanumeric"
+              },
+              "name": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
+              },
+              "image": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/cars/{car_number}": {
+      "delete": {
+        "tags": [
+          "cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Delete a single car",
+        "parameters": [
+          {
+            "name": "car_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "properties": {
+              "car_number": {
+                "type": "string",
+                "format": "alphanumeric"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+
+    "/parking": {
+      "post": {
+        "tags": [
+          "parking"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "New Parking API",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Enter required body parameters",
+            "schema": {
+              "$ref": "#/definitions/slot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/parking": {
+      "get": {
+        "tags": [
+          "parking"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get details of all cars",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Fetch Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/parking/{slot_number}": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get info of a single parking slot",
+        "parameters": [
+          {
+            "name": "slot_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "properties": {
+              "slot_number": {
+                "type": "number"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetch Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/parking/{slot_number}": {
+      "put": {
+        "tags": [
+          "parking"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Update info of a parking slot",
+        "parameters": [
+          {
+            "name": "slot_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "car_number": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/parking/{slot_number}": {
+      "delete": {
+        "tags": [
+          "parking"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Delete a single parking slot",
+        "parameters": [
+          {
+            "name": "slot_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "properties": {
+              "slot_number": {
+                "type": "number"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "car": {
+      "type": "object",
+      "properties": {
+        "car_number": {
+          "type": "string",
+          "format": "alphanumeric"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "parking_slot": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "car_number": {
+          "type": "string",
+          "format": "alphanumeric"
+        }
+      }
+    }
+  }
+}
