@@ -15,8 +15,14 @@ dotenv.config();
  */
 
 if (!process.env.PORT) {
-    process.exit(1);
- }
+  console.error("PORT NOT DEFINED");
+  process.exit(1);
+}
+if (!process.env.PARKING_LOT_SIZE) {
+  console.error("PARKING_LOT_SIZE NOT DEFINED");
+  process.exit(1);
+}
+
  
  const PORT: number = parseInt(process.env.PORT as string, 10) || 8000;
 
