@@ -11,7 +11,6 @@ import { Cars } from "../models/cars.interface";
 /**
  * In-Memory Store
  */
-let car_id = 0;
 let cars: Cars = {};
 
 
@@ -21,40 +20,45 @@ let cars: Cars = {};
 
 export const findAll = async (): Promise<Car[]> => Object.values(cars);
 
-export const find = async (id: number): Promise<Car> => cars[id];
-
+export const find = async (car_number: number): Promise<Car> => cars[car_number];
+const validateCarNumber = function(car){
+  //this regex in only for alphanumberic. This means, empty string will also return false which consequently handles for car_number as required field as well
+  return /^[a-z0-9]+$/i.test(car)
+}
+const validateFields = function(car){
+  return validateCarNumber(car["car_number"]);
+}
 export const create = async (newCar: BaseCar): Promise<Car> => {
-  newCar["id"] && newCar["id"] > 0 ? null : car_id++;
-  
-    cars[car_id] = {
-      id: car_id,
-      ...newCar,
-    };
-  
-    return cars[car_id];
-  };
+  if(newCar["car_number"] && validateFields(car_number)){
+    cars[car_number] = newCar;
+    return newCar;
+  }
+  throw Error("Invalid Fields");
+};
 
   export const update = async (
-    id: number,
+    car_number: number,
     carUpdate: BaseCar
   ): Promise<Car | null> => {
-    const car = await find(id);
+    const car = await find(car_number);
   
     if (!car) {
-      return null;
+      throw Error("Car Not Found!");
+    }
+    if(newCar["car_number"] && validateFields(carUpdate)){
+      cars[car_number] = { car_number, ...carUpdate };
+      return cars[car_number];
     }
   
-    cars[id] = { id, ...carUpdate };
-  
-    return cars[id];
+    
   };
 
-  export const remove = async (id: number): Promise<null | void> => {
-    const car = await find(id);
+  export const remove = async (car_number: number): Promise<null | void> => {
+    const car = await find(car_number);
   
     if (!car) {
-      return null;
+      throw Error("Car Not Found!");
     }
   
-    delete cars[id];
+    delete cars[car_number];
   };

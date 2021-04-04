@@ -10,10 +10,10 @@ import { BaseCar, Car } from "../models/car.interface";
  * Controller Definitions
  */
 export const getCar = async (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id, 10);
+  const car_number: number = parseInt(req.params.car_number, 10);
 
   try {
-    const car: Car = await CarService.find(id);
+    const car: Car = await CarService.find(car_number);
 
     if (car) {
       return res.status(200).send(car);
@@ -46,15 +46,15 @@ export const createCar = async (req: Request, res: Response) => {
   }
 }
 export const updateCar = async (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id, 10);
+  const car_number: number = parseInt(req.params.car_number, 10);
 
   try {
     const carUpdate: Car = req.body;
 
-    const existingCar: Car = await CarService.find(id);
+    const existingCar: Car = await CarService.find(car_number);
 
     if (existingCar) {
-      const updatedCar = await CarService.update(id, carUpdate);
+      const updatedCar = await CarService.update(car_number, carUpdate);
       return res.status(200).json(updatedCar);
     }
 
@@ -67,8 +67,8 @@ export const updateCar = async (req: Request, res: Response) => {
 }
 export const deleteCar = async (req: Request, res: Response) => {
   try {
-    const id: number = parseInt(req.params.id, 10);
-    await CarService.remove(id);
+    const car_number: number = parseInt(req.params.car_number, 10);
+    await CarService.remove(car_number);
 
     res.sendStatus(204);
   } catch (e) {

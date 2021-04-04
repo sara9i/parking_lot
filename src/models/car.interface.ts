@@ -6,5 +6,5 @@ export interface BaseCar {
   }
 //   There will be scenarios where you only need to assert the item's structure without its id
   export interface Car extends BaseCar {
-    id: number;
+    car_number: string;
   }

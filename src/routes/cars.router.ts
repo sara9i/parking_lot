@@ -21,9 +21,9 @@ carsRouter.get("/", async (req: Request, res: Response) => {
   carsController.listCar(req, res);
 });
 
-// GET cars/:id
+// GET cars/:car_number
 
-carsRouter.get("/:id", async (req: Request, res: Response) => {
+carsRouter.get("/:car_number", async (req: Request, res: Response) => {
     carsController.getCar(req, res);
   });
 
@@ -33,13 +33,13 @@ carsRouter.post("/", async (req: Request, res: Response) => {
     carsController.createCar(req, res);
   });
 
-// PUT cars/:id
+// PUT cars/:car_number
 
-carsRouter.put("/:id", async (req: Request, res: Response) => {
+carsRouter.put("/:car_number", async (req: Request, res: Response) => {
     carsController.updateCar(req, res);
   });
 
-// DELETE cars/:id
-carsRouter.delete("/:id", async (req: Request, res: Response) => {
+// DELETE cars/:car_number
+carsRouter.delete("/:car_number", async (req: Request, res: Response) => {
     carsController.deleteCar(req, res);
   });
