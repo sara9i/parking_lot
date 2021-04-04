@@ -10,7 +10,7 @@ import { BaseCar, Car } from "../models/car.interface";
  * Controller Definitions
  */
 export const getCar = async (req: Request, res: Response) => {
-  const car_number: number = parseInt(req.params.car_number, 10);
+  const car_number: string = req.params.car_number;
 
   try {
     const car: Car = await CarService.find(car_number);
