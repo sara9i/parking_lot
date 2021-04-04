@@ -41,7 +41,7 @@ export const create = async (newSlot: BaseSlot): Promise<Slot> => {
     const parking_slot = await find(id);
   
     if (!parking_slot) {
-      return null;
+      throw Error("Parking Slot Not Found!");
     }
   
     parking_slots[id] = { id, ...parking_slotUpdate };
@@ -53,7 +53,7 @@ export const create = async (newSlot: BaseSlot): Promise<Slot> => {
     const parking_slot = await find(id);
   
     if (!parking_slot) {
-      return null;
+      throw Error("Parking Slot Not Found!");
     }
   
     delete parking_slots[id];
