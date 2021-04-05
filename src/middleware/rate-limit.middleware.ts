@@ -10,10 +10,9 @@ export const rateLimit = (
   response: Response,
   next: NextFunction
 ) => {
+  try{
     const currentRequestTime = moment();
-    console.log("i am in middleware");
-    console.log(GLOBAL.rate_limit_map[request.ip])
-    if(GLOBAL.rate_limit_map[request.ip] == null){
+    if(Object.keys(GLOBAL.rate_limit_map).length === 0 || GLOBAL.rate_limit_map[request.ip] == null){
             let newRecord : string[] = [];
             let requestLog: any = {
               requestTimeStamp: currentRequestTime.unix(),
@@ -21,7 +20,7 @@ export const rateLimit = (
             };
             newRecord.push(requestLog);
             GLOBAL.rate_limit_map[request.ip] = JSON.stringify(newRecord);
-            next();
+            return next();
     }
     // if record is found, parse it's value and calculate number of requests users has made within the last window
     let data = JSON.parse(GLOBAL.rate_limit_map[request.ip]);
@@ -31,15 +30,14 @@ export const rateLimit = (
     let requestsWithinWindow = data.filter(entry => {
       return entry.requestTimeStamp > windowStartTimestamp;
     });
-    console.log('requestsWithinWindow', requestsWithinWindow);
+    // console.log('requestsWithinWindow', requestsWithinWindow);
     let totalWindowRequestsCount = requestsWithinWindow.reduce((accumulator, entry) => {
       return accumulator + entry.requestCount;
     }, 0);
     // if number of requests made is greater than or equal to the desired maximum, return error
     if (totalWindowRequestsCount >= MAX_WINDOW_REQUEST_COUNT) {
-      response
-        .status(429)
-        .send(
+      return response.status(429)
+        .json(
           `You have exceeded the ${MAX_WINDOW_REQUEST_COUNT} requests in ${WINDOW_SIZE_IN_SECONDS} seconds limit!`
         );
     } else {
@@ -62,4 +60,9 @@ export const rateLimit = (
       GLOBAL.rate_limit_map[request.ip] = JSON.stringify(data);
       next();
     }
+  }catch(err){
+    console.log("ERROR FROM MIDDLEWARE!!");
+    console.log(err);
+    return response.status(500).json(err);
+  }
 };
