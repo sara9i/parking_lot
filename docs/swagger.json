@@ -56,9 +56,7 @@
             "description": "API not found"
           }
         }
-      }
-    },
-    "/cars": {
+      },
       "get": {
         "tags": [
           "cars"
@@ -84,7 +82,7 @@
         }
       }
     },
-    "/cars/{car_number}": {
+    "/cars/{car_number}":{
       "get": {
         "tags": [
           "cars"
@@ -119,9 +117,7 @@
             "description": "API not found"
           }
         }
-      }
-    },
-    "/cars/{car_number}": {
+      },
       "put": {
         "tags": [
           "cars"
@@ -137,20 +133,33 @@
           {
             "name": "car_number",
             "in": "path",
-            "description": "Enter required body parameters",
+            "description": "Enter Car Number",
             "properties": {
               "car_number": {
                 "type": "string",
                 "format": "alphanumeric"
-              },
-              "name": {
-                "type": "string"
-              },
-              "price": {
-                "type": "number"
-              },
-              "image": {
-                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Enter required body parameters",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "number"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -166,9 +175,7 @@
             "description": "API not found"
           }
         }
-      }
-    },
-    "/cars/{car_number}": {
+      },
       "delete": {
         "tags": [
           "cars"
@@ -206,7 +213,6 @@
         }
       }
     },
-
     "/parking": {
       "post": {
         "tags": [
@@ -225,7 +231,7 @@
             "in": "body",
             "description": "Enter required body parameters",
             "schema": {
-              "$ref": "#/definitions/slot"
+              "$ref": "#/definitions/parking_slot"
             }
           }
         ],
@@ -240,9 +246,7 @@
             "description": "API not found"
           }
         }
-      }
-    },
-    "/parking": {
+      },
       "get": {
         "tags": [
           "parking"
@@ -269,43 +273,6 @@
       }
     },
     "/parking/{slot_number}": {
-      "get": {
-        "tags": [
-          "cars"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "description": "Get info of a single parking slot",
-        "parameters": [
-          {
-            "name": "slot_number",
-            "in": "path",
-            "description": "Enter required body parameters",
-            "properties": {
-              "slot_number": {
-                "type": "number"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Fetch Successfully."
-          },
-          "400": {
-            "description": "Invalid Input"
-          },
-          "404": {
-            "description": "API not found"
-          }
-        }
-      }
-    },
-    "/parking/{slot_number}": {
       "put": {
         "tags": [
           "parking"
@@ -316,18 +283,16 @@
         "consumes": [
           "application/json"
         ],
-        "description": "Update info of a parking slot",
+        "description": "Update info of a Parking Slot",
         "parameters": [
           {
             "name": "slot_number",
             "in": "path",
             "description": "Enter required body parameters",
             "properties": {
-              "id": {
-                "type": "number"
-              },
               "car_number": {
-                "type": "string"
+                "type": "string",
+                "format": "alphanumeric"
               }
             }
           }
@@ -343,9 +308,7 @@
             "description": "API not found"
           }
         }
-      }
-    },
-    "/parking/{slot_number}": {
+      },
       "delete": {
         "tags": [
           "parking"
@@ -380,6 +343,169 @@
             "description": "API not found"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "parking"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get info of a single parking slot",
+        "parameters": [
+          {
+            "name": "slot_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "properties": {
+              "slot_number": {
+                "type": "number"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetch Successfully."
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/park":{
+      "post": {
+        "tags": [
+          "Assignment Routes"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Park API",
+        "parameters": [
+          {
+            "name": "Body Parameters",
+            "in": "body",
+            "description": "Enter required body parameters",
+            "required": [
+              "car_number"
+            ],
+            "properties": {
+              "car_number": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/unpark/{slot_number}":{
+      "delete": {
+        "tags": [
+          "Assignment Routes"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Unpark API",
+        "parameters": [
+          {
+            "name": "slot_number",
+            "in": "path",
+            "description": "Enter required body parameters",
+            "required": [
+              "slot_number"
+            ],
+            "properties": {
+              "slot_number": {
+                "type": "number"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+    "/get-info":{
+      "get": {
+        "tags": [
+          "Assignment Routes"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get Slot Info API",
+        "parameters": [
+          {
+            "name": "slot_number",
+            "in": "query",
+            "description": "Enter Slot Number",
+            "properties": {
+              "slot_number": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "car_number",
+            "in": "query",
+            "description": "Enter Car Number",
+            "properties": {
+              "car_number": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "minProperties": 1,
+        "responses": {
+          "200": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
       }
     }
   },
@@ -393,6 +519,9 @@
         },
         "name": {
           "type": "string"
+        },
+        "description":{
+          "type":"string"
         },
         "price": {
           "type": "number"
