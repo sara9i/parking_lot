@@ -12,7 +12,7 @@ Open terminal and cd into the project dirrectory.
 #### Installing dependencies
 In project's root dirrectory run **npm i**
 #### Starting the server
-After installing dependencies in above step, in project's root dirrectory run **npm run start** to start the server and watch these changes.
+After installing dependencies in above step, in project's root dirrectory run **npm run clean-start** to nuke the node modules, reinstall and start the server.
 
 ### Useful Things
 

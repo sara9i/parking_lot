@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
-    "clean-start": "rm -rf node_modules && npm i && ts-node-dev --respawn --pretty --transpile-only src/index.ts",
+    "clean-start": "export PARKING_LOT_SIZE=100 && rm -rf node_modules && npm i && ts-node-dev --respawn --pretty --transpile-only src/index.ts",
     "build": "mkdir -p lib/src && cp -r ./src lib/src/ && tsc",
     "dev-node": "nodemon ./index.js"
   },
