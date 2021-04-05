@@ -140,13 +140,11 @@ export const getInfo = async (req: Request, res: Response) => {
       }
       return res.status(200).json(parking);
     }else if(car_number){
-      console.log("I AM HERE!!!");
       if(!CarService.validateCarNumber(car_number)){
         return res.status(400).json("Invalid Car Number!");
       }
       const car: Car = await CarService.find(car_number);
       if(!car){
-        console.log("CAR NOT FOUND!");
         return res.status(400).json("Car Not Found!");
       }else{
         parking = await SlotService.searchByCarNumber(car_number);
@@ -159,7 +157,6 @@ export const getInfo = async (req: Request, res: Response) => {
       return res.status(400).json("Missing Required Fields!");
     }
   }catch(e){
-    console.log("I AM IN CATCH!!!");
     console.log(e);
     return res.status(500).send(e.message);
   }
