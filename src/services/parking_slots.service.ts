@@ -8,6 +8,7 @@ import { BaseSlot, Slot } from "../models/parking_slot.interface";
 import { Slots } from "../models/parking_slots.interface";
 import * as CarService from "./cars.service";
 import { Car } from "../models/car.interface";
+import {PARKING_LOT_SIZE} from '../globals';
 
 
 /**
@@ -27,16 +28,16 @@ export const findAll = async (): Promise<Slot[]> => Object.values(parking_slots)
 export const find = async (id: number): Promise<Slot> => parking_slots[id];
 export const searchByCarNumber = async (car_number: string): Promise<Slot> => car_indexed_slots[car_number];
 
-const validateFields = function(slot){
+const validateFields = function(slot: Slot){
   return validateSlotNumber(slot["id"])
 }
 
-export const validateSlotNumber = function(slot_number){
-  return slot_number > 0 && slot_number <= process.env.PARKING_LOT_SIZE;
+export const validateSlotNumber = function(slot_number: number){
+  return slot_number > 0 && slot_number <= PARKING_LOT_SIZE;
 }
 
 export const create = async (newSlot: BaseSlot): Promise<Slot> => {
-  slot_id = newSlot["id"] && newSlot["id"]>0 ? newSlot["id"] :++slot_id;
+  slot_id++;
   if(!validateSlotNumber(slot_id)){
     throw Error(`Invalid ID ${slot_id}!`);
   }
@@ -51,25 +52,17 @@ export const create = async (newSlot: BaseSlot): Promise<Slot> => {
         throw Error("Car Already Parked!");
       }
       else{
-        car_indexed_slots[newSlot.car_number] = {
-          id: slot_id,
-          ...newSlot,
-        };
+        car_indexed_slots[newSlot.car_number] = {id: slot_id, ...newSlot};
       }
   }
-  
-  parking_slots[slot_id] = {
-    id: slot_id,
-    ...newSlot,
-  };
-  
-    return parking_slots[slot_id];
-  };
+  parking_slots[slot_id] = {id: slot_id, ...newSlot};
+  return parking_slots[slot_id];
+};
 
   export const update = async (
     id: number,
     parking_slotUpdate: BaseSlot
-  ): Promise<Slot | null> => {
+  ): Promise<Slot> => {
     if(!validateSlotNumber(id)){
       throw Error("Invalid ID!");
     }

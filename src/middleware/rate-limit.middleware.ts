@@ -14,8 +14,8 @@ export const rateLimit = (
     console.log("i am in middleware");
     console.log(GLOBAL.rate_limit_map[request.ip])
     if(GLOBAL.rate_limit_map[request.ip] == null){
-            let newRecord = [];
-            let requestLog = {
+            let newRecord : string[] = [];
+            let requestLog: any = {
               requestTimeStamp: currentRequestTime.unix(),
               requestCount: 1
             };

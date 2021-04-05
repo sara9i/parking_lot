@@ -20,16 +20,16 @@ let cars: Cars = {};
 
 export const findAll = async (): Promise<Car[]> => Object.values(cars);
 
-export const find = async (car_number: number): Promise<Car> => cars[car_number];
-export const validateCarNumber = function(car){
+export const find = async (car_number: string): Promise<Car> => cars[car_number];
+export const validateCarNumber = function(car_number: string){
   //this regex in only for alphanumberic. This means, empty string will also return false which consequently handles for car_number as required field as well
   const regex = /^[A-Z]*[0-9]/
-  return regex.test(car)
+  return regex.test(car_number)
 }
-const validateFields = function(car){
+const validateFields = function(car: Car){
   return validateCarNumber(car["car_number"]);
 }
-export const create = async (newCar: BaseCar): Promise<Car> => {
+export const create = async (newCar: Car): Promise<Car> => {
   if(cars[newCar["car_number"]]){
     throw Error("Car Number Must Be Unique!");
   }
@@ -41,7 +41,7 @@ export const create = async (newCar: BaseCar): Promise<Car> => {
 };
 
   export const update = async (
-    car_number: number,
+    car_number: string,
     carUpdate: BaseCar
   ): Promise<Car | null> => {
     const car = await find(car_number);
@@ -49,17 +49,18 @@ export const create = async (newCar: BaseCar): Promise<Car> => {
     if (!car) {
       throw Error("Car Not Found!");
     }
-    if(newCar["car_number"] && validateFields(carUpdate)){
+    if(car["car_number"] && validateCarNumber(car_number)){
       cars[car_number] = { car_number, ...carUpdate };
       return cars[car_number];
     }
+    return null;
   
     
   };
 
-  export const remove = async (car_number: number): Promise<null | void> => {
+  export const remove = async (car_number: string): Promise<null | void> => {
     
-    if(validateCarNumber(car["car_number"])){
+    if(validateCarNumber(car_number)){
       throw Error("Invalid Car Number!");
     }
     const car = await find(car_number);

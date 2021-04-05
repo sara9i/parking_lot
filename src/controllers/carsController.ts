@@ -35,7 +35,7 @@ export const listCar = async (req: Request, res: Response) => {
 }
 export const createCar = async (req: Request, res: Response) => {
   try {
-    const car: BaseCar = req.body;
+    const car: Car = req.body;
 
     const newCar = await CarService.create(car);
 
@@ -46,10 +46,10 @@ export const createCar = async (req: Request, res: Response) => {
   }
 }
 export const updateCar = async (req: Request, res: Response) => {
-  const car_number: number = parseInt(req.params.car_number, 10);
+  const car_number: string = req.params.car_number;
 
   try {
-    const carUpdate: Car = req.body;
+    const carUpdate: BaseCar = req.body;
 
     const existingCar: Car = await CarService.find(car_number);
 
@@ -57,17 +57,14 @@ export const updateCar = async (req: Request, res: Response) => {
       const updatedCar = await CarService.update(car_number, carUpdate);
       return res.status(200).json(updatedCar);
     }
-
-    const newCar = await CarService.create(carUpdate);
-
-    res.status(201).json(newCar);
+    return res.status(400).json("Car Not Found!");
   } catch (e) {
     res.status(500).send(e.message);
   }
 }
 export const deleteCar = async (req: Request, res: Response) => {
   try {
-    const car_number: number = parseInt(req.params.car_number, 10);
+    const car_number: string = req.params.car_number;
     await CarService.remove(car_number);
 
     res.sendStatus(204);
