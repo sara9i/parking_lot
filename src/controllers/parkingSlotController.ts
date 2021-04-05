@@ -21,18 +21,18 @@ export const getSlot = async (req: Request, res: Response) => {
       return res.status(200).send(slot);
     }
 
-    res.status(404).send("slot not found");
+    return res.status(404).send("slot not found");
   } catch (e) {
-    res.status(500).send(e.message);
+    return res.status(500).send(e.message);
   }
 }
 export const listSlot = async (req: Request, res: Response) => {
   try {
     const slots: Slot[] = await SlotService.findAll();
 
-    res.status(200).send(slots);
+    return res.status(200).send(slots);
   } catch (e) {
-    res.status(500).send(e.message);
+    return res.status(500).send(e.message);
   }
 }
 export const createSlot = async (req: Request, res: Response) => {
@@ -41,10 +41,10 @@ export const createSlot = async (req: Request, res: Response) => {
 
     const newSlot = await SlotService.create(slot);
 
-    res.status(201).json(newSlot);
+    return res.status(201).json(newSlot);
   } catch (e) {
     console.log(e);
-    res.status(500).send(e.message);
+    return res.status(500).send(e.message);
   }
 }
 export const updateSlot = async (req: Request, res: Response) => {
@@ -62,9 +62,9 @@ export const updateSlot = async (req: Request, res: Response) => {
 
     const newSlot = await SlotService.create(slotUpdate);
 
-    res.status(201).json(newSlot);
+    return res.status(201).json(newSlot);
   } catch (e) {
-    res.status(500).send(e.message);
+    return res.status(500).send(e.message);
   }
 }
 export const deleteSlot = async (req: Request, res: Response) => {
@@ -72,9 +72,9 @@ export const deleteSlot = async (req: Request, res: Response) => {
     const id: number = parseInt(req.params.id, 10);
     await SlotService.remove(id);
 
-    res.sendStatus(204);
+    return res.sendStatus(204);
   } catch (e) {
-    res.status(500).send(e.message);
+    return res.status(500).send(e.message);
   }
 }
 
@@ -138,23 +138,29 @@ export const getInfo = async (req: Request, res: Response) => {
       if(!parking || parking.length <= 0){
         return res.status(400).json("Parking Slot not found!");
       }
+      return res.status(200).json(parking);
     }else if(car_number){
+      console.log("I AM HERE!!!");
       if(!CarService.validateCarNumber(car_number)){
         return res.status(400).json("Invalid Car Number!");
       }
       const car: Car = await CarService.find(car_number);
       if(!car){
-        throw Error("Car Not Found!");
-      }
-      parking = await SlotService.searchByCarNumber(car_number);
-      if(!parking || parking.length <= 0){
-        return res.status(400).json("Car Not Found In Parking Lot!");
+        console.log("CAR NOT FOUND!");
+        return res.status(400).json("Car Not Found!");
+      }else{
+        parking = await SlotService.searchByCarNumber(car_number);
+        if(!parking || parking.length <= 0){
+          return res.status(400).json("Car Not Found In Parking Lot!");
+        }
+        return res.status(200).json(parking);
       }
     }else{
-      res.status(400).json("Missing Required Fields!");
+      return res.status(400).json("Missing Required Fields!");
     }
-    return res.status(200).json(parking);
   }catch(e){
+    console.log("I AM IN CATCH!!!");
+    console.log(e);
     return res.status(500).send(e.message);
   }
 }
