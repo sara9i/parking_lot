@@ -60,7 +60,7 @@ export const create = async (newCar: Car): Promise<Car> => {
 
   export const remove = async (car_number: string): Promise<null | void> => {
     
-    if(validateCarNumber(car_number)){
+    if(!validateCarNumber(car_number)){
       throw Error("Invalid Car Number!");
     }
     const car = await find(car_number);
